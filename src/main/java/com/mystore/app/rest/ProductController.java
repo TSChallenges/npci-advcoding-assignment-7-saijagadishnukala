@@ -16,13 +16,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("")
+    @PostMapping("/addProduct")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         Product p = productService.addProduct(product);
         return new ResponseEntity<>(p, HttpStatus.CREATED);
     }
 
-    @GetMapping("")
+    @GetMapping("/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         if (products.isEmpty()) {
