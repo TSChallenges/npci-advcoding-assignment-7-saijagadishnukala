@@ -2,18 +2,17 @@ package com.mystore.app.service;
 
 import com.mystore.app.entity.Product;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
     private Integer currentId = 1;
 
-    private List<Product> products = new ArrayList<>(
+    private final List<Product> products = new ArrayList<>(
             Arrays.asList(
                     new Product(currentId++, "Smartphone", "Electronics", 40000.00, 50),
                     new Product(currentId++, "Laptop", "Electronics", 50000.00, 30),
@@ -74,15 +73,31 @@ public class ProductService {
     }
 
     // TODO: Method to search products by name
-
+    public List<Product> searchProductsByName(String name) {
+        return products.stream()
+                .filter(product -> product.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 
     // TODO: Method to filter products by category
-
+    public List<Product> filterProductsByCategory(String category) {
+        return products.stream()
+                .filter(product -> product.getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+    }
 
     // TODO: Method to filter products by price range
-
+    public List<Product> filterProductsByPriceRange(Double minPrice, Double maxPrice) {
+        return products.stream()
+                .filter(product -> product.getPrice() >= minPrice && product.getPrice() <= maxPrice)
+                .collect(Collectors.toList());
+    }
 
     // TODO: Method to filter products by stock quantity range
-
+    public List<Product> filterProductsByStockRange(Integer minStock, Integer maxStock) {
+        return products.stream()
+                .filter(product -> product.getStockQuantity() >= minStock && product.getStockQuantity() <= maxStock)
+                .collect(Collectors.toList());
+    }
     
 }

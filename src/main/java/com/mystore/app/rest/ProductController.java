@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 @RestController
 @RequestMapping("/products")
@@ -60,15 +58,45 @@ public class ProductController {
     }
 
     // TODO: API to search products by name
-
+    @GetMapping("/name")
+    public ResponseEntity<List<Product>> searchProductsByName(@RequestParam("name") String name) {
+        List<Product> products = productService.searchProductsByName(name);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
     // TODO: API to filter products by category
-
+    @GetMapping("/category")
+    public ResponseEntity<List<Product>> filterProductsByCategory(@RequestParam("category") String category) {
+        List<Product> products = productService.filterProductsByCategory(category);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
     // TODO: API to filter products by price range
-
+    @GetMapping("/price")
+    public ResponseEntity<List<Product>> filterProductsByPriceRange(@RequestParam("minPrice") Double minPrice,
+                                                                    @RequestParam("maxPrice") Double maxPrice) {
+        List<Product> products = productService.filterProductsByPriceRange(minPrice, maxPrice);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
     // TODO: API to filter products by stock quantity range
-
+    @GetMapping("/stock")
+    public ResponseEntity<List<Product>> filterProductsByStockRange(@RequestParam("minStock") Integer minStock,
+                                                                    @RequestParam("maxStock") Integer maxStock) {
+        List<Product> products = productService.filterProductsByStockRange(minStock, maxStock);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
 }
